@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const cookieParser = require('cookie-parser');
 const app = express();
 
 mongoose.connect('mongodb://localhost/Taxanda_database')
@@ -24,6 +24,8 @@ const userRoutes = require('./routes/user')
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+app.use(cookieParser());
 
 app.use(morgan('dev')); 
 app.use(cors());
