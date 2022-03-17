@@ -1,11 +1,18 @@
-const User = require('../models/user_model.js');
+const user = require('../models/user_model.js');
 const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 const register = (req,res)=>{
-    user.findOne({email:req.body.email})
+    console.log('insider register controller');
+    const { email, password,role,name } = req.body;
+    console.log('email is :'+ email+role+name)
+    if (!email || !password ||!role || !name) return res.status(400).json({ 'message': 'makesure all fields are filled' });
+    user.findOne({Email:req.body.email})
     .exec()
     .then(_user=>{
       if(_user){
+          console.log('found user'+_user)
           res.status(400).json({
               message:'wrong email or password'
           })

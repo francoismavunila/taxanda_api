@@ -1,4 +1,4 @@
-const User = require('../models/user_model.js');
+const user = require('../models/user_model.js');
 const jwt = require('jsonwebtoken');
 
 const refreshToken = (req,res)=>{
@@ -16,14 +16,17 @@ const refreshToken = (req,res)=>{
                  process.env.REFRESH_TOKEN_SECRET,
                  (err, decoded)=>{
                      if(err || user.Email !== decoded.userEmail) return res.sendStatus(403);
- 
+                    const role = _user.Role;
                      const accessToken = jwt.sign({
-                         "userEmail" : decoded.userEmail  
+                        userInfo:{
+                            "userEmail" : decoded.Email,
+                            "role":role  
+                           } 
                        },
                        process.env.ACCESS_TOKEN_SECRET,
                        {expiresIn:'30s'} 
                        )
-                       res.json({accessToken})
+                       res.json({role,accessToken})
                  }
              )
          }else{

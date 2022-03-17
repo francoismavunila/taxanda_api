@@ -25,10 +25,12 @@ const userRoutes = require('./routes/user')
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+
+console.log('cookie parser')
 app.use(cookieParser());
 
 app.use(morgan('dev')); 
-app.use(cors());
+app.use(cors({credentials: true,origin: "http://localhost:3000"}));
 // app.use((req, res , next)=>{
 //     res.header("Access-Control-Allow-Origini","*");
 //     res.header(
@@ -41,6 +43,7 @@ app.use(cors());
 //     } 
 //     next(); 
 // })
+console.log('routing to user');
 app.use('/user',userRoutes);
 
 app.use((req,res,next)=>{

@@ -1,4 +1,4 @@
-const User = require('../models/user_model.js');
+const user = require('../models/user_model.js');
 
 const logout = (req,res)=>{
     const cookies = req.cookies 

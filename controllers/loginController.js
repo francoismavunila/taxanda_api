@@ -1,10 +1,12 @@
-const User = require('../models/user_model.js');
+const user = require('../models/user_model.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
 const login = (req,res)=>{
+    console.log('insider login controller');
     const { email, password } = req.body;
+    console.log('email is :'+ email)
     if (!email || !password) return res.status(400).json({ 'message': 'Username and password are required.' });
     console.log(email+ password)
     user.findOne({Email:email})
@@ -16,8 +18,12 @@ const login = (req,res)=>{
                 if(result){
                     console.log(result)
                    //using jwt to authontenticate
+                   const role = _user.Role;
                    const accessToken = jwt.sign({
-                     "userEmail" : _user.Email  
+                       userInfo:{
+                        "userEmail" : _user.Email,
+                        "role":role  
+                       }
                    },
                    process.env.ACCESS_TOKEN_SECRET,
                    {expiresIn:'30s'} 
@@ -33,7 +39,7 @@ const login = (req,res)=>{
                    _user.save()
                    .then(response=>{
                         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None',secure:true ,  maxAge: 24 * 60 * 60 * 1000 }); //secure: true, 
-                        res.json({ accessToken });
+                        res.json({role, accessToken });
                    })
                    .catch(error=>{
                        console.log(error);
