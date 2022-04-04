@@ -6,7 +6,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app = express();
 
-mongoose.connect('mongodb://localhost/Taxanda_database')
+mongoose.connect('mongodb://0.0.0.0:27017/Taxanda_database')
 .then(() => console.log("Database connected!"))
 .catch(err => console.log(err));;
 
@@ -22,6 +22,8 @@ mongoose.connect('mongodb://localhost/Taxanda_database')
 
 const userRoutes = require('./routes/user')
 
+const driverRoutes = require('./routes/driver')
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -31,20 +33,10 @@ app.use(cookieParser());
 
 app.use(morgan('dev')); 
 app.use(cors({credentials: true,origin: "http://localhost:3000"}));
-// app.use((req, res , next)=>{
-//     res.header("Access-Control-Allow-Origini","*");
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin,X-Requested-With, Content-Types, Accept, Authorization"
-//     );
-//     if(req.method==='OPTIONS'){
-//         res.header('Access-Control-Allow-Methods','PUT, POST, PATCH, DELETE,GET');
-//         return res.status(200).json({});
-//     } 
-//     next(); 
-// })
+
 console.log('routing to user');
 app.use('/user',userRoutes);
+app.use('/driver',driverRoutes);
 
 app.use((req,res,next)=>{
     console.log('here')

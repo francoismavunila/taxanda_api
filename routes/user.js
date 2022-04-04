@@ -43,4 +43,7 @@ router.get('/general',authJWT,authRole(ROLES.Admin,ROLES.Editor,ROLES.User),(req
     })
 })
 
+router.get('/test',(req,res)=>{
+    res.status(200).json("tada!! we got here");
+})
 module.exports = router;
