@@ -28,8 +28,10 @@ const registration = (req,res)=>{
         Driver.save()
         .then(result=>{
             console.log(result);
+            
             res.status(200).json({
-                message:'registered successfully'
+                message:'registered successfully',
+                driver_id:national
             })
         })
         .catch(err=>{

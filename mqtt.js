@@ -1,4 +1,9 @@
-var mqtt = require('mqtt')
+var mqtt = require('mqtt');
+const driver = require('./models/driver_model.js');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://0.0.0.0:27017/Taxanda_database')
+.then(() => console.log("Database connected on child process!"))
+.catch(err => console.log(err));;
 
 var options = {
     host: '9c641868feef4f288cb222c3d38b905e.s1.eu.hivemq.cloud',
@@ -22,12 +27,39 @@ client.on('error', function (error) {
 
 client.on('message', function (topic, message) {
     //Called each time a message is received
-    console.log(message)
-    console.log('Received message:', topic, message.toString());
+    if(topic=='driv/register/sendFP'){
+        console.log( message.toString());
+        var messageObj = JSON.parse(message);
+        console.log("device id"+messageObj.device_id)
+        console.log("driver id"+messageObj.driver_id)
+        console.log("data"+messageObj.data)
+        driver.findOne({National_id:messageObj.driver_id})
+        .exec()
+        .then((_driver)=>{
+            if(_driver){
+               console.log("driver is"+_driver);
+               _driver.FingerPrint =messageObj.data;
+               _driver.save()
+               .then(result=>{
+                   console.log("done, send flag to app");
+               })
+            }else{
+                console.log("couldn't get particular driver");
+            }
+
+        })
+        .catch(err=>{
+            console.log("error is"+err);
+        })
+    }else{
+        console.log(message)
+        console.log('Received message:', topic, message.toString());
+    }
 });
 
 // subscribe to topic 
-client.subscribe('drive/register/sendFP');
+client.subscribe('driv/register/sendFP');
 
 // publish message 'Hello' to topic 
-client.publish('driver/register/getFP', 'getfingerprint');
+//client.publish('driver/register/getFP', 'getfingerprint');
+

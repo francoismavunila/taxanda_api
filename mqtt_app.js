@@ -1,7 +1,7 @@
 var mqtt = require('mqtt')
 
 var options = {
-    host: 'b602c88e789043e8afecd76fb4efe9f6.s1.eu.hivemq.cloud',
+    host: '9c641868feef4f288cb222c3d38b905e.s1.eu.hivemq.cloud',
     port: 8883,
     protocol: 'mqtts',
     username: 'Francois',
@@ -22,6 +22,7 @@ client.on('error', function (error) {
 
 client.on('message', function (topic, message) {
     //Called each time a message is received
+    
     console.log('Received message:', topic, message.toString());
 });
 

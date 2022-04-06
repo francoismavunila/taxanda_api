@@ -1,4 +1,4 @@
-//require('child_process').fork('mqtt_app.js');
+require('child_process').fork('mqtt.js');
 
 const http = require('http');//require the http library
 
