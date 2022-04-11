@@ -41,7 +41,7 @@ client.on('message', function (topic, message) {
                _driver.FingerPrint =messageObj.data;
                _driver.save()
                .then(result=>{
-                   console.log("done, send flag to app");
+                   console.log("done, send flag to app now");
                    client.publish('registration', 'done');
                })
             }else{
