@@ -42,14 +42,17 @@ client.on('message', function (topic, message) {
                _driver.save()
                .then(result=>{
                    console.log("done, send flag to app");
+                   client.publish('registration', 'done');
                })
             }else{
                 console.log("couldn't get particular driver");
+                client.publish('registration', 'Wrong Driver Id');
             }
 
         })
         .catch(err=>{
             console.log("error is"+err);
+            client.publish('registration', 'server error');
         })
     }else{
         console.log(message)

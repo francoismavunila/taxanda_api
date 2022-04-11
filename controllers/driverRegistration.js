@@ -4,7 +4,7 @@ const driver = require('../models/driver_model.js');
 
 const registration = (req,res)=>{
     console.log('insider driver register controller');
-    const { email,name,surname,phone,responder,national } = req.body;
+    const { email,name,surname,phone,responder,national,DriverLicence,VehicleReg,Address } = req.body;
     console.log('email is :'+ email)
     if (!email || !surname ||!national || !name || !responder|| !phone) return res.status(400).json({ 'message': 'makesure all fields are filled' });
     driver.findOne({Email:req.body.email})
@@ -23,7 +23,11 @@ const registration = (req,res)=>{
             Responder : responder,
             National_id : national,
             FingerPrint :"",
-            Surname : surname
+            Surname : surname,
+            VehicleReg: VehicleReg,
+            DriverLicence: DriverLicence,
+            Address : Address
+
         });
         Driver.save()
         .then(result=>{

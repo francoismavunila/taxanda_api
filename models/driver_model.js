@@ -7,7 +7,10 @@ const DriverSchema = mongoose.Schema({
     National_id: {type:String, required: true} ,
     FingerPrint : {type:String},
     Phone : {type:Number,required:true},
-    Responder: {type:String, required: true} 
+    Responder: {type:String, required: true} ,
+    VehicleReg: {type:String, required: true} ,
+    DriverLicence: {type:String, required: true},
+    Address: {type:String, required: true} 
 });
 
 module.exports = mongoose.model('Drivers',DriverSchema);
