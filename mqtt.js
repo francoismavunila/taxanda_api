@@ -54,14 +54,17 @@ client.on('message', function (topic, message) {
             console.log("error is"+err);
             client.publish('registration', 'server error');
         })
+    }else if(topic=="activity/1010/send"){
+        console.log( message.toString());
     }else{
-        console.log(message)
-        console.log('Received message:', topic, message.toString());
+        console.log("topic not defined")
     }
 });
 
 // subscribe to topic 
 client.subscribe('driv/register/sendFP');
+
+client.subscribe('activity/1010/send');
 
 // publish message 'Hello' to topic 
 //client.publish('driver/register/getFP', 'getfingerprint');
